@@ -169,7 +169,6 @@ __global__ void k_compute_alpha (
 
 	int t = threadIdx.x + blockIdx.x * blockDim.x;
 
-	// JIWON XXX
 	//extern __shared__ int sharedarr[];
 
 	//int *fast_ds = sharedarr;
@@ -196,7 +195,6 @@ __global__ void k_compute_alpha (
 __global__ void k_compute_1moment_alpha (int *alpha, int max_exclusive) {
 	int i = threadIdx.x + blockIdx.x * blockDim.x;
 
-	// JIWON XXX
 	/*
 	extern __shared__ int fast_alpha[];
 	__shared__ int max_exclusive;
@@ -225,7 +223,6 @@ __global__ void k_increase_M (
 		int *beta, int *gamma, int V_size, bool *Ls, int *ds, int ds_v,
 		int *M_v_idx) {
 
-	// JIWON XXX
 	//extern __shared__ int sharedarr[];
 
 	int u = threadIdx.x + blockIdx.x * blockDim.x;
