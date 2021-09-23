@@ -293,18 +293,6 @@ DeltaFastCuda: DeltaFastCuda.o graph.o deltafast.o kernels.o bfs.o utils.o
 DeltaFastMultiCuda: DeltaFastMultiCuda.o graph.o deltafast.o kernels.o bfs.o utils.o
 	$(NVCC) $(ALL_LDFLAGS) $(GENCODE_FLAGS) -o $@ $+ $(LIBRARIES)
 
-DeltaFastMPI.o: DeltaFastMPI.cpp
-	$(MPICC) $(ALL_CCFLAGS) $(INCLUDES) -o $@ -c $<
-
-DeltaFastMPI: DeltaFastMPI.o graph.o utils.o
-	$(MPICC) $(ALL_LDFLAGS) -L$(CUDA_PATH)/lib64/ -o $@ $+ $(LIBRARIES) -lcuda -lcudart 
-
-DeltaFastCUMP.o: DeltaFastCUMP.cpp
-	$(MPICC) $(ALL_CCFLAGS) $(INCLUDES) -o $@ -c $<
-
-DeltaFastCUMP: DeltaFastCUMP.o graph.o utils.o deltafast.o kernels.o bfs.o
-	$(MPICC) $(ALL_LDFLAGS) -L$(CUDA_PATH)/lib64/ -o $@ $+ $(LIBRARIES) -lcuda -lcudart 
-
 test_bfs: TestBFS
 	./TestBFS ../dat/real/class.V 34 ../dat/real/class.E 78 33
 
@@ -335,18 +323,6 @@ test_deltafastmulticuda: DeltaFastMultiCuda
 test_deltafastmulticuda_large: DeltaFastMultiCuda
 	./$< ../dat/real/oregon.V 10671 ../dat/real/oregon.E 44004 3 ../dat/real/oregon.A 30
 
-test_deltafastmpi: DeltaFastMPI
-	$(MPIEXEC) -np 5 ./$< ../dat/real/class.V 34 ../dat/real/class.E 78 ../dat/real/class.A 34
-
-test_deltafastmpi_large: DeltaFastMPI
-	$(MPIEXEC) -np 24 ./$< ../dat/real/oregon.V 10671 ../dat/real/oregon.E 44004 ../dat/real/oregon.A 10
-
-test_deltafastcump: DeltaFastCUMP
-	$(MPIEXEC) -np 3 ./$< ../dat/real/class.V 34 ../dat/real/class.E 78 ../dat/real/class.A 34
-
-test_deltafastcump_large: DeltaFastCUMP
-	$(MPIEXEC) -np 3 ./$< ../dat/real/oregon.V 10671 ../dat/real/oregon.E 44004
-
 clean:
-	rm -f TestBFS TestScan DeltaFast DeltaFastCuda DeltaFastMultiCuda DeltaFastMPI
+	rm -f TestBFS TestScan DeltaFast DeltaFastCuda DeltaFastMultiCuda
 	rm -f *.o
