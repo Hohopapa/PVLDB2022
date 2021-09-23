@@ -1,0 +1,7 @@
+.ipynb_checkpoints/
+*.test.A
+*.test.dat
+*.test.E
+*.test.V
+out.facebook
+out.oregon
